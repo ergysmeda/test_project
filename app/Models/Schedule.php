@@ -10,6 +10,11 @@ class Schedule extends Model
     use HasFactory;
 
     protected $table = 'schedules';
+    protected $fillable = [
+        'date',
+        'job_id',
+        'user_id',
+    ];
 
     public function user()
     {

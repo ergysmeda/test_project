@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->date('assigned_date')->nullable();
+            $table->dateTime('assigned_date')->nullable();
             $table->string('status');
             $table->text('assessment')->nullable();
             $table->timestamps();

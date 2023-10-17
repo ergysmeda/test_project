@@ -2,38 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use App\Services\AuthenticateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
+
+
 
 class AuthController extends Controller
 {
+
+    public AuthenticateService $authenticateService;
+
+    /**
+     * @param AuthenticateService $authenticateService
+     */
+    public function __construct(AuthenticateService $authenticateService)
+    {
+        $this->authenticateService = $authenticateService;
+    }
+
+
     /**
      * Register a new user.
      *
      * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         // Validation
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-        ]);
+        $userRequest = $request->validated();
 
-        // Create user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        $user = $this->authenticateService->register($userRequest);
 
         // Create a token
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        return response()->json(['token' => $token], 201);
+        return response()->json(['token' => $token], Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +60,7 @@ class AuthController extends Controller
 
         // Attempt login
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json(['message' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
         // Get the authenticated user
@@ -61,6 +69,13 @@ class AuthController extends Controller
         // Create a token
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json(['token' => $token], Response::HTTP_OK);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

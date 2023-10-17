@@ -45,11 +45,16 @@ class User extends Authenticatable
 
     public function timeZone()
     {
-        return $this->belongsTo(TimeZone::class);
+        return $this->belongsTo(TimeZone::class,'timezone_id');
     }
 
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function getTimezoneOffset()
+    {
+        return $this->timeZone->offset;
     }
 }
