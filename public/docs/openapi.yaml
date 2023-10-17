@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/register:
+    post:
+      summary: 'Register a new user.'
+      operationId: registerANewUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: saepe
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: sortiz@example.org
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: dJ-x-1ex>
+                timezone_id:
+                  type: string
+                  description: ''
+                  example: et
+              required:
+                - name
+                - email
+                - password
+                - timezone_id
+      security: []
+  /api/login:
+    post:
+      summary: 'Log in a user.'
+      operationId: logInAUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: orn.shaylee@example.com
+                password:
+                  type: string
+                  description: ''
+                  example: illo
+              required:
+                - email
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: ''
+      operationId: postApiLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/time-zones:
+    post:
+      summary: ''
+      operationId: postApiTimeZones
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/jobs:
+    post:
+      summary: ''
+      operationId: postApiJobs
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/jobs/unassigned:
+    post:
+      summary: ''
+      operationId: postApiJobsUnassigned
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/jobs/assign/{id}':
+    post:
+      summary: ''
+      operationId: postApiJobsAssignId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the assign.'
+        example: voluptas
+        required: true
+        schema:
+          type: string
+  '/api/jobs/complete/{id}':
+    post:
+      summary: ''
+      operationId: postApiJobsCompleteId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assessment:
+                  type: string
+                  description: ''
+                  example: ut
+              required:
+                - assessment
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the complete.'
+        example: quidem
+        required: true
+        schema:
+          type: string
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
